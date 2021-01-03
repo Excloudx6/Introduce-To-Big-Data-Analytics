@@ -31,9 +31,11 @@ tw$category = as.numeric(tw$category) # label encoding
 
 ## cor.test()
 # income p-value < 0.05 : "likes" "dislikes" "comment_count" "desc_length" "trending_days" "duration" "category"
+shapiro.test(y1) # p-value < 0.05, income is not normal
 y1_pvalue = sapply(tw, function(x) cor.test(x, y1, method = "spearman", exact = F)$p.value) 
 names(y1_pvalue[y1_pvalue < 0.05])
-# likes_ratio p-value < 0.05 : "likes" "comment_count" "desc_length" "trending_days" "duration"     
+# likes_ratio p-value < 0.05 : "likes" "comment_count" "desc_length" "trending_days" "duration"  
+shapiro.test(y2) # p-value < 0.05, likes_ratio is not normal
 y2_pvalue = sapply(tw, function(x) cor.test(x, y2, method = "spearman", exact = F)$p.value)
 names(y2_pvalue[y2_pvalue < 0.05])
 
