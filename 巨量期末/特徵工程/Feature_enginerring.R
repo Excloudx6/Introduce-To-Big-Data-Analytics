@@ -12,7 +12,7 @@ tw = merge(tw, ctable, by.x = "categoryId", by.y = "cid")
 tw$categoryId = NULL
 tw$category = as.factor(tw$category)
 # 新增喜歡比欄位
-tw$likes_ratio =ifelse(tw$dislikes == 0, 0, tw$likes / tw$dislikes)
+tw$likes_ratio = ifelse(tw$dislikes == 0, 0, tw$likes / tw$dislikes)
 rm(list=c("cjson", "ctable", "cid"))
 
 #######################################################################
