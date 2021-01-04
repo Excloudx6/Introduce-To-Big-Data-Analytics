@@ -1,6 +1,6 @@
 # setwd("~/GitHub/bigdata/巨量期末/特徵工程")
 rm(list=ls())
-pacman::p_load(tidyverse, data.table, jsonlite, corrplot)
+pacman::p_load(tidyverse, data.table, jsonlite, corrplot, mltools)
 
 # load tw.csv
 tw = fread("./tw.csv", fill = T, stringsAsFactors = F, encoding = "UTF-8", drop = c("title", "publishedAt", "channelId", "channelTitle", "trending_date", "tags", "thumbnail_link", "comments_disabled", "ratings_disabled", "description", "view_count"))
@@ -27,7 +27,8 @@ corrplot(tw_cor, method = "number", type = "upper")
 y1 = tw$income; tw$income = NULL
 y2 = tw$likes_ratio; tw$likes_ratio = NULL
 ids = tw$video_id; tw$video_id = NULL # video_id
-tw$category = as.numeric(tw$category) # label encoding
+# tw$category = as.numeric(tw$category) # label encoding
+tw = one_hot(as.data.table(tw)) # one hot encoding
 
 ## cor.test()
 # income p-value < 0.05 : "likes" "dislikes" "comment_count" "desc_length" "trending_days" "duration" "category"
@@ -48,7 +49,8 @@ tw_nor = as.data.frame(lapply(tw, normalize))
 tw_nor$income = y1
 tw_nor$likes_ratio = y2
 tw_nor$video_id = ids
-tw_nor = tw_nor[c(11, 1:10)]
+tw_nor = tw_nor[c(24, 1:23)]
 
 ## output new_tw2.csv (after scaling)
 write.table(tw_nor, "./new_tw2.csv", sep = ",", row.names = F)
+
